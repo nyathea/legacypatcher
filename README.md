@@ -31,13 +31,6 @@ It also includes several QoL improvements such as:
 
 ## Known Issues
 
-- **Login Issues:**  
-  On v8.58 (and likely other 8.x versions), logging in may crash the app or fail outright. A workaround is to log in using v7.29.1 first, then upgrade to your preferred version.
-- **Feature Limitations on 8.58/8.71:**  
-  - Video playback is inconsistent.
-  - Viewing quote tweets, banner images, Explore/Search, and translating tweets may not work.
-  - On some versions, liking tweets fails because of deprecated endpoints.
-
----
-
-**Note:** This project is a work in progress. Contributions and issue reports are welcome!
+- On v8.58 (and likely other versions), logging in will crash the app or fail to authenticate. A workaround is to log in using v7.29.1 first, then upgrade to your preferred version.
+- Videos dont play at all atleast for me.
+- You may not be able to like tweets on some versions because of it using depreicated endpoints.
