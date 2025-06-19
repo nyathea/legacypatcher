@@ -1,4 +1,4 @@
-name: Build package with Theos
+name: Build with Theos (macOS)
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
           git clone https://github.com/theos/sdks.git ~/theos/sdks
           echo 'THEOS=~/theos' >> $GITHUB_ENV
           echo 'THEOS_MAKE_PATH=~/theos/makefiles' >> $GITHUB_ENV
-          echo 'PATH=~/theos/bin:$PATH' >> $GITHUB_ENV
+          echo 'PATH=$PATH:~/theos/bin' >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
