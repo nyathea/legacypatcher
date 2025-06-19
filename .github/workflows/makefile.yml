@@ -17,6 +17,7 @@ jobs:
       - name: Clone Theos and sdks
         run: |
           git clone --recursive https://github.com/theos/theos.git ~/theos
+          rm -rf ~/theos/sdks
           git clone https://github.com/theos/sdks.git ~/theos/sdks
           echo 'export THEOS=~/theos' >> $GITHUB_ENV
           echo 'export PATH="$THEOS/bin:$PATH"' >> $GITHUB_ENV
