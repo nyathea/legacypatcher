@@ -20,8 +20,7 @@ jobs:
           rm -rf $HOME/theos/sdks
           git clone https://github.com/theos/sdks.git $HOME/theos/sdks
           echo "THEOS=$HOME/theos" >> $GITHUB_ENV
-          echo "THEOS_MAKE_PATH=$HOME/theos/makefiles" >> $GITHUB_ENV
-          echo "PATH=\$PATH:$HOME/theos/bin" >> $GITHUB_ENV
+          echo "PATH=$PATH:$HOME/theos/bin" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
@@ -30,7 +29,6 @@ jobs:
       - name: Build (rootful)
         env:
           THEOS: ${{ env.THEOS }}
-          THEOS_MAKE_PATH: ${{ env.THEOS_MAKE_PATH }}
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS10.3.sdk
           ARCHS: "arm64 armv7"
         run: |
@@ -41,7 +39,6 @@ jobs:
       - name: Build (rootless)
         env:
           THEOS: ${{ env.THEOS }}
-          THEOS_MAKE_PATH: ${{ env.THEOS_MAKE_PATH }}
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS15.6.sdk
           THEOS_PACKAGE_SCHEME: rootless
           ARCHS: "arm64 arm64e"
