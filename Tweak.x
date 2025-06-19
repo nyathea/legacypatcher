@@ -8,14 +8,12 @@
 - (BOOL)_isPinnedCertificateChain:(SecTrustRef)trust;
 @end
 
-// Define minimal interface for media URLs
 @interface TFSTwitterEntityMedia : NSObject
 @property(nonatomic, retain) NSString *originalDisplayURL;
 @property(nonatomic, retain) NSString *displayURL;
 @property(nonatomic, retain) NSString *accessibilityText;
 @end
 
-// Define minimal interfaces for timeline filtering
 @interface T1URTTimelineUserItemViewModel : NSObject
 @property(nonatomic, retain) NSString *scribeComponent;
 @end
@@ -44,21 +42,18 @@
 
 // MARK: spoofing app version
 %hook NSBundle
-
 - (NSDictionary *)infoDictionary {
-    NSDictionary *originalDict = %orig;
-    NSMutableDictionary *modifiedDict = [originalDict mutableCopy];
-    
-    if (modifiedDict[@"CFBundleShortVersionString"]) {
-        modifiedDict[@"CFBundleShortVersionString"] = @"9.44";
-    }
-    if (modifiedDict[@"CFBundleVersion"]) {
-        modifiedDict[@"CFBundleVersion"] = @"9.44";
-    }
-    
-    return [modifiedDict copy];
+    NSDictionary *dict = %orig;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        if ([dict isKindOfClass:[NSMutableDictionary class]]) {
+            NSMutableDictionary *mdict = (NSMutableDictionary *)dict;
+            mdict[@"CFBundleShortVersionString"] = @"9.44";
+            mdict[@"CFBundleVersion"] = @"9.44";
+        }
+    });
+    return dict;
 }
-
 %end
 
 // MARK: Remove useless fleet bar
