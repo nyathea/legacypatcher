@@ -1,4 +1,4 @@
-name: Build with Theos (macOS)
+name: Build with Theos
 
 on:
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install ldid make dpkg
+          brew install make ldid make dpkg
 
       - name: Build (rootful)
         env:
@@ -43,7 +43,7 @@ jobs:
           THEOS: ${{ env.THEOS }}
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS15.6.sdk
           THEOS_PACKAGE_SCHEME: rootless
-          ARCHS: "arm64 arm64e"
+          ARCHS: "arm64"
         run: |
            make clean package
            ls -al
