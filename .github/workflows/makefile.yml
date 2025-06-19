@@ -25,6 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           brew install make ldid make dpkg
+          export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
 
       - name: Build (rootful)
         env:
@@ -32,7 +33,7 @@ jobs:
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS10.3.sdk
           ARCHS: "arm64 armv7"
         run: |
-           gmake clean package
+           make clean package
            ls -al
            find . -name '*.deb'
            mkdir -p build/rootful
@@ -45,7 +46,7 @@ jobs:
           THEOS_PACKAGE_SCHEME: rootless
           ARCHS: "arm64"
         run: |
-           gmake clean package
+           make clean package
            ls -al
            find . -name '*.deb'
            mkdir -p build/rootless
