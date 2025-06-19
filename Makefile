@@ -1,6 +1,5 @@
 TARGET := iphone:clang:latest:7.0
 INSTALL_TARGET_PROCESSES = Twitter
-ARCHS = arm64 armv7 armv7s
 
 include $(THEOS)/makefiles/common.mk
 
