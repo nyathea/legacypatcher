@@ -31,9 +31,9 @@ It also includes several QoL improvements such as:
 
 ## Known Issues
 
-- On v8.58 (and likely other versions), logging in will crash the app or fail to authenticate. A workaround is to log in using v7.29.1 first, then upgrade to your preferred version.
-- Videos dont play at all atleast for me.
-- Explore page/search doesnt show anything
+- On 8.58 (and likely other versions), logging in will crash the app or fail to authenticate. A workaround is to log in using 7.29.1 first, then upgrade to your preferred version.
+- Videos dont play at all atleast for me
+- Explore page and Search page doesnt work
 - You may not be able to like tweets on some versions because of it using deprecated endpoints.
 - There may be random crashes in some places. please send crash logs.
 - your profile may not load on some startups. you may need to reopen it for it to work.
