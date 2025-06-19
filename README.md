@@ -2,7 +2,7 @@
 
 A tweak to restore functionality to older Twitter versions for iOS/iPadOS.
 
-## Overview
+## What does this do?
 
 **TwitterLegacyPatcher** works by:
 - Disabling SSL pinning in the Twitter app
@@ -33,4 +33,7 @@ It also includes several QoL improvements such as:
 
 - On v8.58 (and likely other versions), logging in will crash the app or fail to authenticate. A workaround is to log in using v7.29.1 first, then upgrade to your preferred version.
 - Videos dont play at all atleast for me.
-- You may not be able to like tweets on some versions because of it using depreicated endpoints.
+- Explore page/search doesnt show anything
+- You may not be able to like tweets on some versions because of it using deprecated endpoints.
+- There may be random crashes in some places. please send crash logs.
+- your profile may not load on some startups. you may need to reopen it for it to work.
