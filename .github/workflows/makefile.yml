@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install perl ldid make dpkg
+          brew install ldid make dpkg
 
       - name: Build (rootful)
         env:
