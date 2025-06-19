@@ -1,6 +1,15 @@
 # TwitterLegacyPatcher
 tweak to force older twitter for iOS versions to work again.
 
+this does this by:
+- disabling ssl pinning in the app
+- spoofing the app version
+- fix images by replacing pic.x.com to pic.twitter.com in the 
+
+and it also includes some QoL features like:
+- removing useless fleets bar
+- no ads
+
 Tested on twitter v7.29.1, v8.58, v8.71
 
 ## Known issues
