@@ -32,7 +32,7 @@ jobs:
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS10.3.sdk
           ARCHS: "arm64 armv7"
         run: |
-           make clean package
+           gmake clean package
            ls -al
            find . -name '*.deb'
            mkdir -p build/rootful
@@ -45,7 +45,7 @@ jobs:
           THEOS_PACKAGE_SCHEME: rootless
           ARCHS: "arm64"
         run: |
-           make clean package
+           gmake clean package
            ls -al
            find . -name '*.deb'
            mkdir -p build/rootless
