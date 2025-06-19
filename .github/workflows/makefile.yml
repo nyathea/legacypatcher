@@ -32,9 +32,11 @@ jobs:
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS10.3.sdk
           ARCHS: "arm64 armv7"
         run: |
-          make clean package
-          mkdir -p build/rootful
-          mv *.deb build/rootful/ || true
+           make clean package
+           ls -al
+           find . -name '*.deb'
+           mkdir -p build/rootful
+            mv ./*.deb build/rootful/ || true
 
       - name: Build (rootless)
         env:
@@ -43,9 +45,11 @@ jobs:
           THEOS_PACKAGE_SCHEME: rootless
           ARCHS: "arm64 arm64e"
         run: |
-          make clean package
-          mkdir -p build/rootless
-          mv *.deb build/rootless/ || true
+           make clean package
+           ls -al
+           find . -name '*.deb'
+           mkdir -p build/rootless
+            mv ./*.deb build/rootless/ || true
 
       - name: Upload Artifacts (rootful)
         uses: actions/upload-artifact@v4
