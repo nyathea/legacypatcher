@@ -9,6 +9,8 @@ this works by:
 and it also includes some QoL features like:
 - removing the useless fleets bar
 - no ads
+- remove "Discover More" under tweets
+- enable Birdwatch (a.k.a Community Notes) on versions that support it
 
 Tested on twitter v7.29.1, v8.58, and v8.71. your mileage may vary.
 
