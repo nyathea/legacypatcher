@@ -1,4 +1,4 @@
-name: Build with Theos (macOS)
+name: Build package with Theos
 
 on:
   workflow_dispatch:
@@ -19,8 +19,9 @@ jobs:
           git clone --recursive https://github.com/theos/theos.git ~/theos
           rm -rf ~/theos/sdks
           git clone https://github.com/theos/sdks.git ~/theos/sdks
-          echo 'export THEOS=~/theos' >> $GITHUB_ENV
-          echo 'export PATH="$THEOS/bin:$PATH"' >> $GITHUB_ENV
+          echo 'THEOS=~/theos' >> $GITHUB_ENV
+          echo 'THEOS_MAKE_PATH=~/theos/makefiles' >> $GITHUB_ENV
+          echo 'PATH=~/theos/bin:$PATH' >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
@@ -29,6 +30,7 @@ jobs:
       - name: Build (rootful)
         env:
           THEOS: ${{ env.THEOS }}
+          THEOS_MAKE_PATH: ${{ env.THEOS_MAKE_PATH }}
           THEOS_PLATFORM_SDK_ROOT: ~/theos/sdks/iPhoneOS10.3.sdk
           ARCHS: "arm64 armv7"
         run: |
@@ -39,6 +41,7 @@ jobs:
       - name: Build (rootless)
         env:
           THEOS: ${{ env.THEOS }}
+          THEOS_MAKE_PATH: ${{ env.THEOS_MAKE_PATH }}
           THEOS_PLATFORM_SDK_ROOT: ~/theos/sdks/iPhoneOS15.6.sdk
           THEOS_PACKAGE_SCHEME: rootless
           ARCHS: "arm64 arm64e"
