@@ -1,0 +1,59 @@
+name: Build with Theos (macOS)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Clone Theos and sdks
+        run: |
+          git clone --recursive https://github.com/theos/theos.git ~/theos
+          git clone https://github.com/theos/sdks.git ~/theos/sdks
+          echo 'export THEOS=~/theos' >> $GITHUB_ENV
+          echo 'export PATH="$THEOS/bin:$PATH"' >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: |
+          brew install perl ldid make dpkg
+
+      - name: Build (rootful)
+        env:
+          THEOS: ${{ env.THEOS }}
+          THEOS_PLATFORM_SDK_ROOT: ~/theos/sdks/iPhoneOS10.0.sdk
+          ARCHS: "arm64 armv7"
+        run: |
+          make clean package
+          mkdir -p build/rootful
+          mv *.deb build/rootful/ || true
+
+      - name: Build (rootless)
+        env:
+          THEOS: ${{ env.THEOS }}
+          THEOS_PLATFORM_SDK_ROOT: ~/theos/sdks/iPhoneOS15.6.sdk
+          THEOS_PACKAGE_SCHEME: rootless
+          ARCHS: "arm64 arm64e"
+        run: |
+          make clean package
+          mkdir -p build/rootless
+          mv *.deb build/rootless/ || true
+
+      - name: Upload Artifacts (rootful)
+        uses: actions/upload-artifact@v4
+        with:
+          name: rootful-build
+          path: build/rootful/*.deb
+
+      - name: Upload Artifacts (rootless)
+        uses: actions/upload-artifact@v4
+        with:
+          name: rootless-build
+          path: build/rootless/*.deb
