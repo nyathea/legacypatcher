@@ -24,8 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install make ldid make dpkg
-          export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+          brew install ldid make dpkg
 
       - name: Build (rootful)
         env:
