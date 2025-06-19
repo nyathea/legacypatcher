@@ -216,3 +216,16 @@
 }
 
 %end
+
+// MARK: Enable birdwatch
+%hook TFNTwitterAccount
+- (_Bool)hasBirdwatchNotes {
+    return true;
+}
+- (_Bool)isBirdwatchPivotEnabled {
+    return true;
+}
+- (_Bool)isBirdwatchConsumptionEnabled {
+    return true;
+}
+%end
