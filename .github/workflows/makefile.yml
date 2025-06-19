@@ -29,7 +29,7 @@ jobs:
       - name: Build (rootful)
         env:
           THEOS: ${{ env.THEOS }}
-          THEOS_PLATFORM_SDK_ROOT: ~/theos/sdks/iPhoneOS10.0.sdk
+          THEOS_PLATFORM_SDK_ROOT: ~/theos/sdks/iPhoneOS10.3.sdk
           ARCHS: "arm64 armv7"
         run: |
           make clean package
