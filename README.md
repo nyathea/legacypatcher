@@ -37,7 +37,6 @@ Right now releases wont be made until its stable, if you want to test it you can
 ## Known Issues
 
 - On 8.58 (and likely other versions), logging in will crash the app or fail to authenticate. A workaround is to log in using 7.29.1 first, then upgrade to your preferred version.
-- Videos dont play at all atleast for me
 - Explore page and Search page doesnt work
 - You may not be able to like tweets on some versions because of it using deprecated endpoints.
 - There may be random crashes in some places. please send crash logs.
