@@ -32,11 +32,11 @@ It also includes several QoL improvements such as:
 ## Where do i download?
 Right now releases wont be made until its stable, if you want to test it you can download from the nightly link or from the workflow.
 
-[Link to Nightly Build](https://nightly.link/nyathea/TwitterLegacyPatcher/workflows/makefile/main)
-
 `rootful-build` is for devices on iOS 14 and below
 
 `rootless-build` is for devices on iOS 15 and above
+
+[Link to Nightly Build](https://nightly.link/nyathea/TwitterLegacyPatcher/workflows/makefile/main)
 
 ## Known Issues
 
