@@ -4,33 +4,6 @@
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
-@interface TNUTLSTrustEvaluator : NSObject
-- (BOOL)_isPinnedCertificateChain:(SecTrustRef)trust;
-@end
-
-@interface TFSTwitterEntityMedia : NSObject
-@property(nonatomic, retain) NSString *originalDisplayURL;
-@property(nonatomic, retain) NSString *displayURL;
-@property(nonatomic, retain) NSString *accessibilityText;
-@end
-
-@interface T1URTTimelineUserItemViewModel : NSObject
-@property(nonatomic, retain) NSString *scribeComponent;
-@end
-
-@interface T1URTFooterViewModel : NSObject
-@property(nonatomic, retain) NSURL *url;
-@end
-
-@interface TFNTwitterModuleFooter : NSObject
-@property(nonatomic, retain) NSURL *url;
-@end
-
-@interface TFNItemsDataViewController : NSObject
-@property(nonatomic, retain) NSArray *sections;
-- (id)itemAtIndexPath:(NSIndexPath *)indexPath;
-@end
-
 // MARK: bypass certificate check
 %hook TNUTLSTrustEvaluator
 
@@ -219,13 +192,43 @@
 
 // MARK: Enable birdwatch
 %hook TFNTwitterAccount
-- (_Bool)hasBirdwatchNotes {
+- (BOOL)hasBirdwatchNotes {
     return true;
 }
-- (_Bool)isBirdwatchPivotEnabled {
+- (BOOL)isBirdwatchPivotEnabled {
     return true;
 }
-- (_Bool)isBirdwatchConsumptionEnabled {
+- (BOOL)isBirdwatchConsumptionEnabled {
     return true;
+}
+- (BOOL)isVideoDynamicAdEnabled {
+    return false;
+}
+- (BOOL)isSubscriptionsEnabled {
+    return false;
+}
+- (BOOL)isVideoZoomEnabled {
+    return true;
+}
+- (BOOL)isVODCaptionsEnabled {
+    return false;
+}
+- (BOOL)isProfileModalEnabled {
+    return true;
+}
+- (BOOL)isInAppPurchaseEnabled {
+    return false;
+}
+- (BOOL)isSettingsRevampEnabled {
+    return false;
+}
+- (BOOL)isEditProfileUsernameEnabled {
+    return true;
+}
+- (BOOL)isVitScopedNotificationsEnabled {
+    return false;
+}
+- (BOOL)isVitNotificationsFilteringEnabled {
+    return false;
 }
 %end
