@@ -15,7 +15,7 @@ It also includes several QoL improvements such as:
 - Removes "Discover More" section under tweets
 - Enables Birdwatch (Community Notes) on supported versions
 
-### Planned Improvements
+## Planned Improvements
 
 - Fixing banner images not being displaying on profiles
 - Fix viewing quote tweets on tweets
@@ -29,8 +29,8 @@ It also includes several QoL improvements such as:
 - v8.71
 - v9.10.1
 
-## Download
-Right now releases arent provided until its stable, if you want to use it you can download from here or from the workflow.
+## Where do i download?
+Right now releases wont be made until its stable, if you want to test it you can download from the nightly link or from the workflow.
 
 [Link to Nightly Build](https://nightly.link/nyathea/TwitterLegacyPatcher/workflows/makefile/main)
 
