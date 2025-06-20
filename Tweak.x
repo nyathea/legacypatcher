@@ -3,6 +3,7 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
+#import "TWHeaders.h"
 
 // MARK: bypass certificate check
 %hook TNUTLSTrustEvaluator
