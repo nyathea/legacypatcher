@@ -34,6 +34,9 @@ Right now releases wont be made until its stable, if you want to test it you can
 
 [Link to Nightly Build](https://nightly.link/nyathea/TwitterLegacyPatcher/workflows/makefile/main)
 
+`rootful-build` is for devices on iOS 14 and below
+`rootless-build` is for devices on iOS 15 and above
+
 ## Known Issues
 
 - On 8.58 (and likely other versions), logging in will crash the app or fail to authenticate. A workaround is to log in using 7.29.1 first, then upgrade to your preferred version.
@@ -41,3 +44,5 @@ Right now releases wont be made until its stable, if you want to test it you can
 - You may not be able to like tweets on some versions because of it using deprecated endpoints.
 - There may be random crashes in some places. please send crash logs.
 - your profile may not load on some startups. you may need to reopen it for it to work.
+
+Please let me know if theres any other issues! pleae open a bug report and i'll get to you as soon as i can
