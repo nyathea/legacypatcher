@@ -29,6 +29,11 @@ It also includes several QoL improvements such as:
 - v8.71
 - v9.10.1
 
+## Download
+Right now releases arent provided until its stable, if you want to use it you can download from here or from the workflow.
+
+[Link to Nightly Build](https://nightly.link/nyathea/TwitterLegacyPatcher/workflows/makefile/main)
+
 ## Known Issues
 
 - On 8.58 (and likely other versions), logging in will crash the app or fail to authenticate. A workaround is to log in using 7.29.1 first, then upgrade to your preferred version.
