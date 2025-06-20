@@ -35,6 +35,7 @@ Right now releases wont be made until its stable, if you want to test it you can
 [Link to Nightly Build](https://nightly.link/nyathea/TwitterLegacyPatcher/workflows/makefile/main)
 
 `rootful-build` is for devices on iOS 14 and below
+
 `rootless-build` is for devices on iOS 15 and above
 
 ## Known Issues
