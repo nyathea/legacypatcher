@@ -214,9 +214,6 @@
 - (BOOL)isVODCaptionsEnabled {
     return false;
 }
-- (BOOL)isProfileModalEnabled {
-    return true;
-}
 - (BOOL)isInAppPurchaseEnabled {
     return false;
 }
