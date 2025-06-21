@@ -7,7 +7,7 @@ A tweak to restore functionality to older Twitter versions for iOS/iPadOS.
 **TwitterLegacyPatcher** works by:
 - Disabling SSL pinning in the Twitter app
 - Spoofing the app version to bypass the "Update your app" page on startup
-- Fixing images now showing up correctly by replacing `pic.x.com` with `pic.twitter.com`
+- Fixes images not displaying correctly by replacing `pic.x.com` with `pic.twitter.com`
 - Patches out the now deprecated 1.1 endpoints to make them redirect to the newer graphql endpoints used in newer versions
 
 It also includes several QoL improvements such as:
