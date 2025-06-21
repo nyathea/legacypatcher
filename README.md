@@ -1,4 +1,4 @@
-# TwitterLegacyPatcher
+# TwitterLegacyPatcher&nbsp;<img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg" alt="Twitter" height="25"/>
 
 A tweak to restore functionality to older Twitter versions for iOS/iPadOS.
 
