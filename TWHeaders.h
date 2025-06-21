@@ -34,8 +34,18 @@
 @property(nonatomic, retain) NSString *source;
 @end
 
-// Define minimal interface for layout container
-@interface UILayoutContainerView : UIView
-- (UIViewController *)findTopViewController;
-- (void)promptForATTToken;
+// Define minimal interface for API requests
+@interface TFSTwitterAPIEndpointRequest : NSObject
+- (id)initWithEndpointPath:(NSString *)endpointPath parameters:(NSDictionary *)parameters;
+- (id)initWithEndpointPath:(NSString *)endpointPath parameters:(NSDictionary *)parameters method:(long long)method;
+@end
+
+@interface TFSAPISession : NSObject
+- (void)tnl_requestOperation:(id)operation hydrateRequest:(id)apiRequest completion:(id)completion;
+@end
+
+@interface TFSTwitterAPITranslationsShowRequest : NSObject
++ (NSString *)endpointPath;
++ (unsigned long long)baseURLType;
+- (NSDictionary *)parameters;
 @end
