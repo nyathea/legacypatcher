@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
-#import <Security/Security.h>
-#import <CommonCrypto/CommonDigest.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import "TWHeaders.h"
+
+// FIX LOGIN ISSUES
 
 // MARK: bypass certificate check
 %hook TNUTLSTrustEvaluator
@@ -14,6 +14,8 @@
 
 %end
 
+static NSString *originalAppVersion = nil;
+
 // MARK: spoofing app version
 %hook NSBundle
 - (NSDictionary *)infoDictionary {
@@ -21,6 +23,10 @@
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         if ([dict isKindOfClass:[NSMutableDictionary class]]) {
+            // Save and log the original version before changing it
+            originalAppVersion = [dict[@"CFBundleShortVersionString"] copy];
+            NSLog(@"BHT_LOG: Detected Original App Version: %@", originalAppVersion);
+
             NSMutableDictionary *mdict = (NSMutableDictionary *)dict;
             mdict[@"CFBundleShortVersionString"] = @"9.44";
             mdict[@"CFBundleVersion"] = @"9.44";
@@ -30,10 +36,15 @@
 }
 %end
 
+// Some QOL features
+
 // MARK: Remove useless fleet bar
 %hook T1HomeTimelineItemsViewController
 - (void)_t1_initializeFleets {
-    return;
+    if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
+        return;
+    }
+    %orig;
 }
 %end
 
@@ -162,6 +173,48 @@
 
 %end
 
+%hook TFNTwitterAccount
+- (BOOL)hasBirdwatchNotes {
+    return true;
+}
+- (BOOL)isBirdwatchPivotEnabled {
+    return true;
+}
+- (BOOL)isBirdwatchConsumptionEnabled {
+    return true;
+}
+- (BOOL)isVideoDynamicAdEnabled {
+    return false;
+}
+- (BOOL)isSubscriptionsEnabled {
+    return false;
+}
+- (BOOL)isVideoZoomEnabled {
+    return true;
+}
+- (BOOL)isVODCaptionsEnabled {
+    return false;
+}
+- (BOOL)isProfileModalEnabled {
+    return true;
+}
+- (BOOL)isInAppPurchaseEnabled {
+    return false;
+}
+- (BOOL)isSettingsRevampEnabled {
+    return false;
+}
+- (BOOL)isEditProfileUsernameEnabled {
+    return true;
+}
+- (BOOL)isVitScopedNotificationsEnabled {
+    return false;
+}
+- (BOOL)isVitNotificationsFilteringEnabled {
+    return false;
+}
+%end
+
 // MARK: fix image urls
 %hook TFSTwitterEntityMedia
 
@@ -191,42 +244,185 @@
 
 %end
 
-// MARK: Enable birdwatch
-%hook TFNTwitterAccount
-- (BOOL)hasBirdwatchNotes {
+// MARK: Enable undo tweet
+%hook TFNTwitterToastNudgeExperimentModel
+- (BOOL)shouldShowShowUndoTweetSentToast {
+    if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
+        return true;
+    }
+    return %orig;
+}
+%end
+
+// Helper function to check if we're in the T1ConversationContainerViewController hierarchy
+static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewController) {
+    if (!viewController) return NO;
+    
+    // Check all view controllers up the hierarchy
+    UIViewController *currentVC = viewController;
+    while (currentVC) {
+        NSString *className = NSStringFromClass([currentVC class]);
+        
+        // Check for T1ConversationContainerViewController
+        if ([className isEqualToString:@"T1ConversationContainerViewController"]) {
+            return YES;
+        }
+        
+        // Move up the hierarchy
+        if (currentVC.parentViewController) {
+            currentVC = currentVC.parentViewController;
+        } else if (currentVC.navigationController) {
+            currentVC = currentVC.navigationController;
+        } else if (currentVC.presentingViewController) {
+            currentVC = currentVC.presentingViewController;
+        } else {
+            break;
+        }
+    }
+    
+    return NO;
+}
+
+// MARK : Remove "Discover More" section
+%hook T1URTViewController
+
+- (void)setSections:(NSArray *)sections {
+    if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
+        // Only filter if we're in the T1ConversationContainerViewController hierarchy
+        BOOL inConversationHierarchy = BHT_isInConversationContainerHierarchy((UIViewController *)self);
+        
+        if (inConversationHierarchy) {
+            // Remove entry 1 (index 1) from sections array
+            if (sections.count > 1) {
+                NSMutableArray *filteredSections = [NSMutableArray arrayWithArray:sections];
+                [filteredSections removeObjectAtIndex:1];
+                sections = [filteredSections copy];
+            }
+        }
+    }
+    
+    %orig(sections);
+}
+
+%end
+
+%hook T1TFNUIConfiguration
+- (BOOL)isChirpFontEnabled {
+    if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
+        return true;
+    }
+    return %orig;
+}
+%end
+
+// MARK: force highest quality for media
+%hook TFNTwitterMediaUploadConfiguration
+- (_Bool)photoUploadHighQualityImagesSettingIsVisible {
     return true;
 }
-- (BOOL)isBirdwatchPivotEnabled {
+%end
+
+%hook T1SlideshowViewController
+- (_Bool)_t1_shouldDisplayLoadHighQualityImageItemForImageDisplayView:(id)arg1 highestQuality:(_Bool)arg2 {
     return true;
 }
-- (BOOL)isBirdwatchConsumptionEnabled {
+- (id)_t1_loadHighQualityActionItemWithTitle:(id)arg1 forImageDisplayView:(id)arg2 highestQuality:(_Bool)arg3 {
+            arg3 = true; {
+    }
+    return %orig(arg1, arg2, arg3);
+}
+%end
+
+%hook T1ImageDisplayView
+- (_Bool)_tfn_shouldUseHighestQualityImage {
     return true;
 }
-- (BOOL)isVideoDynamicAdEnabled {
-    return false;
-}
-- (BOOL)isSubscriptionsEnabled {
-    return false;
-}
-- (BOOL)isVideoZoomEnabled {
+- (_Bool)_tfn_shouldUseHighQualityImage {
     return true;
 }
-- (BOOL)isVODCaptionsEnabled {
-    return false;
-}
-- (BOOL)isInAppPurchaseEnabled {
-    return false;
-}
-- (BOOL)isSettingsRevampEnabled {
-    return false;
-}
-- (BOOL)isEditProfileUsernameEnabled {
+%end
+
+%hook T1HighQualityImagesUploadSettings
+- (_Bool)shouldUploadHighQualityImages {
     return true;
 }
-- (BOOL)isVitScopedNotificationsEnabled {
-    return false;
+%end
+
+// MARK: Fix Translate button endpoint
+%hook TFSTwitterAPITranslationsShowRequest
+
++ (NSString *)endpointPath {
+    return @"/graphql/UKHMx2KR1yByLE3fcs4Sbw/TranslateTweetResults";
 }
-- (BOOL)isVitNotificationsFilteringEnabled {
-    return false;
+
++ (unsigned long long)baseURLType {
+    return 0;
+}
+
+- (NSDictionary *)parameters {
+    NSDictionary *originalParameters = %orig;
+    if (!originalParameters) {
+        return nil;
+    }
+
+    NSString *tweetID = originalParameters[@"id"];
+    if (!tweetID) {
+        return originalParameters;
+    }
+
+    NSDictionary *variables = @{
+        @"rest_id": tweetID,
+        @"translation_source": @"Google"
+    };
+    NSDictionary *features = @{
+        @"immersive_video_status_linkable_timestamps": @(YES)
+    };
+    
+    NSData *variablesData = [NSJSONSerialization dataWithJSONObject:variables options:0 error:nil];
+    NSData *featuresData = [NSJSONSerialization dataWithJSONObject:features options:0 error:nil];
+    
+    if (variablesData && featuresData) {
+        NSString *variablesString = [[NSString alloc] initWithData:variablesData encoding:NSUTF8StringEncoding];
+        NSString *featuresString = [[NSString alloc] initWithData:featuresData encoding:NSUTF8StringEncoding];
+
+        if (variablesString && featuresString) {
+            return @{
+                @"variables": variablesString,
+                @"features": featuresString
+            };
+        }
+    }
+    return originalParameters;
+}
+
+%end
+
+%hook NSJSONSerialization
++ (id)JSONObjectWithData:(NSData *)data options:(NSJSONReadingOptions)opt error:(NSError **)error {
+    id JSONObject = %orig(data, opt, error);
+
+    if (JSONObject && [JSONObject isKindOfClass:[NSDictionary class]]) {
+        id tweetResults = [JSONObject valueForKeyPath:@"data.tweet_results.result.translate_tweet"];
+        if (tweetResults && [tweetResults isKindOfClass:[NSDictionary class]]) {
+            NSString *translationText = tweetResults[@"translation"];
+            NSString *translationState = tweetResults[@"translation_state"];
+            
+            if (translationText && [translationState isEqualToString:@"Success"]) {
+                NSString *tweetID = [JSONObject valueForKeyPath:@"data.tweet_results.rest_id"];
+                
+                return @{
+                    @"id_str": tweetID ?: @"",
+                    @"text": translationText,
+                    @"translation": translationText,
+                    @"dest": tweetResults[@"destination_language"] ?: @"en",
+                    @"source_language": tweetResults[@"source_language"] ?: @"",
+                    @"localized_source_language": tweetResults[@"localized_source_language"] ?: @"",
+                    @"entities": tweetResults[@"entities"] ?: @{}
+                };
+            }
+        }
+    }
+    
+    return JSONObject;
 }
 %end
