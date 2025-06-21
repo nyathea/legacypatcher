@@ -8,7 +8,7 @@ A tweak to restore functionality to older Twitter versions for iOS/iPadOS.
 - Disabling SSL pinning in the Twitter app
 - Spoofing the app version to bypass the "Update your app" page on startup
 - Fixing images now showing up correctly by replacing `pic.x.com` with `pic.twitter.com`
-- Patches some old deprecated endpoints to make them work with the newer graphql endpoints used on later versions
+- Patches out the now deprecated 1.1 endpoints to make them redirect to the newer graphql endpoints used in newer versions
 
 It also includes several QoL improvements such as:
 - Hides the (now useless) Fleets bar on versions that have it
