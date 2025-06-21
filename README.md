@@ -19,7 +19,6 @@ It also includes several QoL improvements such as:
 
 - Fixing banner images not being displaying on profiles
 - Fix viewing quote tweets on tweets
-- Fix tweet translation errors
 - Stop source labels from disappearing once the tweet has loaded
 
 ## Tested Versions
