@@ -63,14 +63,6 @@ static NSString *originalAppVersion = nil;
     
     NSString *itemClassName = NSStringFromClass([item classForCoder]);
     
-    // Hide news and trending
-    if ([itemClassName isEqualToString:@"T1Twitter.URTTimelineTrendViewModel"] ||
-        [itemClassName isEqualToString:@"T1Twitter.URTTimelineEventSummaryViewModel"] ||
-        [itemClassName isEqualToString:@"T1URTTimelineMessageItemViewModel"]) {
-        [tbvCell setHidden:YES];
-        return tbvCell;
-    }
-    
     // Hide who to follow suggestions
     if ([itemClassName isEqualToString:@"TFNTwitterUser"] && 
         [NSStringFromClass([self class]) isEqualToString:@"T1HomeTimelineItemsViewController"]) {
@@ -118,13 +110,6 @@ static NSString *originalAppVersion = nil;
     }
     
     NSString *itemClassName = NSStringFromClass([item classForCoder]);
-    
-    // Hide news and trending
-    if ([itemClassName isEqualToString:@"T1Twitter.URTTimelineTrendViewModel"] ||
-        [itemClassName isEqualToString:@"T1Twitter.URTTimelineEventSummaryViewModel"] ||
-        [itemClassName isEqualToString:@"T1URTTimelineMessageItemViewModel"]) {
-        return 0;
-    }
     
     // Hide who to follow suggestions
     if ([itemClassName isEqualToString:@"TFNTwitterUser"] && 
