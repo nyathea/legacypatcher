@@ -158,6 +158,7 @@ static NSString *originalAppVersion = nil;
 
 %end
 
+// MARK: various enhancements enable birdwatch, video zoom, disable video captions, disables verified tab in notifications
 %hook TFNTwitterAccount
 - (BOOL)hasBirdwatchNotes {
     return true;
@@ -171,19 +172,10 @@ static NSString *originalAppVersion = nil;
 - (BOOL)isVideoDynamicAdEnabled {
     return false;
 }
-- (BOOL)isSubscriptionsEnabled {
-    return false;
-}
 - (BOOL)isVideoZoomEnabled {
     return true;
 }
 - (BOOL)isVODCaptionsEnabled {
-    return false;
-}
-- (BOOL)isProfileModalEnabled {
-    return true;
-}
-- (BOOL)isInAppPurchaseEnabled {
     return false;
 }
 - (BOOL)isSettingsRevampEnabled {
@@ -196,6 +188,23 @@ static NSString *originalAppVersion = nil;
     return false;
 }
 - (BOOL)isVitNotificationsFilteringEnabled {
+    return false;
+}
+%end
+
+// MARK: Enable voice button in composer
+%hook T1PhotoMediaRailViewController
+- (BOOL)isVoiceButtonHidden {
+    return false;
+}
+%end
+
+// MARK: fix for affiliate badges showing up on profiles on v8.x
+%hook TTACoreAnatomyFeatures
+- (BOOL)isAffiliateBadgeEnabled {
+    return false;
+}
+- (BOOL)isVerificationV2AffiliateBadgingEnabled {
     return false;
 }
 %end
