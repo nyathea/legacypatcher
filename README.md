@@ -42,7 +42,7 @@ Right now releases wont be made until its stable, if you want to test it you can
 ## Known Issues
 
 - On 8.58 (and likely other versions), logging in will crash the app or fail to authenticate. A workaround is to log in using 7.29.1 first, then upgrade to your preferred version. later 8.x versions dont seem to have this issue.
-- Explore page and Search page doesnt work
+- Viewing Search page and Quote tweets doesnt work
 - You may not be able to like tweets on some versions because of the client using deprecated endpoints. (this will be fixed soon)
 - your profile may not load on the first launch. you may need to reopen it for it to work.
 
