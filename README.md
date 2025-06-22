@@ -1,6 +1,8 @@
 # TwitterLegacyPatcher&nbsp;<img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg" alt="Twitter" height="25"/>
 
-A tweak to restore functionality to older Twitter versions for iOS/iPadOS.
+A tweak to restore functionality to older Twitter versions for iOS/iPadOS. 
+
+This effectively makes it possible to use Twitter again on devices where it was broken previously.
 
 ## What does this do?
 
@@ -9,8 +11,6 @@ A tweak to restore functionality to older Twitter versions for iOS/iPadOS.
 - Spoofing the app version to bypass the "Update your app" page on startup
 - Fixes images not displaying correctly by replacing `pic.x.com` with `pic.twitter.com`
 - Patches out the now deprecated 1.1 endpoints and return the newer graphql endpoints
-
-This effectively makes it possible to use Twitter again on devices where it was broken.
 
 It also includes several QoL improvements such as:
 - Hides the (now useless) Fleets bar on versions that have it
