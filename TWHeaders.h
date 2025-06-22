@@ -17,9 +17,28 @@
 @property(nonatomic, retain) NSURL *url;
 @end
 
+@interface TFNItemsDataViewControllerBackingStore : NSObject
+- (void)insertSection:(NSInteger)section atIndex:(NSInteger)index;
+- (void)_tfn_insertSection:(NSInteger)section atIndex:(NSInteger)index;
+- (void)insertItem:(id)item atIndexPath:(NSIndexPath *)indexPath;
+- (void)_tfn_insertItem:(id)item atIndexPath:(NSIndexPath *)indexPath;
+@end
+
 @interface TFNItemsDataViewController : NSObject
 @property(nonatomic, retain) NSArray *sections;
+@property(nonatomic, retain) UITableView *tableView;
+@property(nonatomic, retain) TFNItemsDataViewControllerBackingStore *backingStore;
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath;
+- (void)setSections:(NSArray *)sections;
+@end
+
+// Define minimal interface for About Settings
+@interface T1AboutSettingsViewController : TFNItemsDataViewController
+@end
+
+// Define minimal interface for TFNTextCell
+@interface TFNTextCell : UITableViewCell
++ (id)value1CellForTableView:(id)arg1 indexPath:(id)arg2 withText:(id)arg3 detailText:(id)arg4 accessoryType:(long long)arg5;
 @end
 
 // Define minimal interface for media URLs
@@ -32,6 +51,12 @@
 // Define minimal interface for tweet footer
 @interface T1TweetDetailsFooterItem : NSObject
 @property(nonatomic, retain) NSString *source;
+@end
+
+// Define minimal interface for layout container
+@interface UILayoutContainerView : UIView
+- (UIViewController *)findTopViewController;
+- (void)promptForATTToken;
 @end
 
 // Define minimal interface for API requests
