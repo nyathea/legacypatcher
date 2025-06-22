@@ -506,11 +506,9 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 - (NSArray *)frameArray {
     NSArray *frames = %orig;
     if (!frames) {
-        // Return empty array instead of nil to prevent crash
         return @[];
     }
     
-    // Filter out any nil objects from the array
     NSMutableArray *filteredFrames = [NSMutableArray array];
     for (id frame in frames) {
         if (frame != nil) {
