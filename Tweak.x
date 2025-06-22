@@ -499,3 +499,26 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 }
 
 %end
+
+// MARK: attempt to fix crash on ipad
+%hook TFNFrameSheet
+
+- (NSArray *)frameArray {
+    NSArray *frames = %orig;
+    if (!frames) {
+        // Return empty array instead of nil to prevent crash
+        return @[];
+    }
+    
+    // Filter out any nil objects from the array
+    NSMutableArray *filteredFrames = [NSMutableArray array];
+    for (id frame in frames) {
+        if (frame != nil) {
+            [filteredFrames addObject:frame];
+        }
+    }
+    
+    return [filteredFrames copy];
+}
+
+%end
