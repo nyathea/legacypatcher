@@ -10,6 +10,8 @@ A tweak to restore functionality to older Twitter versions for iOS/iPadOS.
 - Fixes images not displaying correctly by replacing `pic.x.com` with `pic.twitter.com`
 - Patches out the now deprecated 1.1 endpoints and return the newer graphql endpoints
 
+This effectively makes it possible to use Twitter again on devices where it was broken.
+
 It also includes several QoL improvements such as:
 - Hides the (now useless) Fleets bar on versions that have it
 - Removes all ads
@@ -20,6 +22,7 @@ It also includes several QoL improvements such as:
 
 - Fixing banner images not being displaying on profiles
 - Fix viewing quote tweets on tweets
+- Fixing latest timeline
 - Stop source labels from disappearing once the tweet has loaded
 - Fix liking tweets and viewing profiles on 7.x versions
 
