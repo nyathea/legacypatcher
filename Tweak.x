@@ -421,7 +421,7 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 }
 %end
 
-// MARK: About Setings modification
+// MARK: About Settings extended info
 %hook T1AboutSettingsViewController
 
 - (void)setSections:(NSArray *)sections {
@@ -452,6 +452,7 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
     
     if (originalAppVersion && indexPath.section == 0) {
         if (indexPath.row == 0) {
+            NSLog(@"BHT_LOG: Modifying original version cell");
             // Modify the existing version cell to show original version
             UITableViewCell *cell = %orig;
             if (cell.textLabel) {
@@ -462,28 +463,34 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
             }
             return cell;
         } else if (indexPath.row == 1) {
+            NSLog(@"BHT_LOG: Creating spoofed version cell");
             // Create spoofed version cell
             TFNTextCell *spoofedCell = [%c(TFNTextCell) value1CellForTableView:tableView 
                                                                        indexPath:indexPath 
                                                                         withText:@"Spoofed Version" 
                                                                       detailText:@"9.44" 
                                                                    accessoryType:0];
+            spoofedCell.selectionStyle = UITableViewCellSelectionStyleNone;
             return spoofedCell;
         } else if (indexPath.row == 2) {
+            NSLog(@"BHT_LOG: Creating branch info cell");
             // Create branch info cell
             TFNTextCell *branchCell = [%c(TFNTextCell) value1CellForTableView:tableView 
                                                                      indexPath:indexPath 
                                                                       withText:@"Branch" 
                                                                     detailText:@GIT_BRANCH 
                                                                  accessoryType:0];
+            branchCell.selectionStyle = UITableViewCellSelectionStyleNone;
             return branchCell;
         } else if (indexPath.row == 3) {
+            NSLog(@"BHT_LOG: Creating commit info cell");
             // Create commit info cell
             TFNTextCell *commitCell = [%c(TFNTextCell) value1CellForTableView:tableView 
                                                                       indexPath:indexPath 
                                                                        withText:@"Commit" 
                                                                      detailText:@GIT_COMMIT_HASH 
                                                                   accessoryType:0];
+            commitCell.selectionStyle = UITableViewCellSelectionStyleNone;
             return commitCell;
         }
     }
