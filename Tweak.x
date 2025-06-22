@@ -466,7 +466,7 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
             TFNTextCell *spoofedCell = [%c(TFNTextCell) value1CellForTableView:tableView 
                                                                        indexPath:indexPath 
                                                                         withText:@"Spoofed Version" 
-                                                                      detailText:@"9.40" 
+                                                                      detailText:@"9.44" 
                                                                    accessoryType:0];
             return spoofedCell;
         } else if (indexPath.row == 2) {
