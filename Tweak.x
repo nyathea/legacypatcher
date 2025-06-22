@@ -420,3 +420,75 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
     return JSONObject;
 }
 %end
+
+// MARK: About Setings modification
+%hook T1AboutSettingsViewController
+
+- (void)setSections:(NSArray *)sections {
+    if (originalAppVersion && sections.count > 0) {
+        NSMutableArray *modifiedSections = [NSMutableArray arrayWithArray:sections];
+        
+        // Get the first section and add our custom items
+        if (modifiedSections[0] && [modifiedSections[0] isKindOfClass:[NSArray class]]) {
+            NSMutableArray *firstSection = [NSMutableArray arrayWithArray:modifiedSections[0]];
+            
+            // Insert our custom items at indices 1-4 (after the original version)
+            [firstSection insertObject:@"SpoofedVersion" atIndex:1];
+            [firstSection insertObject:@"BranchInfo" atIndex:2];
+            [firstSection insertObject:@"CommitInfo" atIndex:3];
+            
+            // Replace the first section
+            [modifiedSections replaceObjectAtIndex:0 withObject:[firstSection copy]];
+        }
+        
+        sections = [modifiedSections copy];
+    }
+    
+    %orig(sections);
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"BHT_LOG: cellForRowAtIndexPath - section: %ld, row: %ld", (long)indexPath.section, (long)indexPath.row);
+    
+    if (originalAppVersion && indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            // Modify the existing version cell to show original version
+            UITableViewCell *cell = %orig;
+            if (cell.textLabel) {
+                cell.textLabel.text = @"Original Version";
+                if (cell.detailTextLabel) {
+                    cell.detailTextLabel.text = originalAppVersion;
+                }
+            }
+            return cell;
+        } else if (indexPath.row == 1) {
+            // Create spoofed version cell
+            TFNTextCell *spoofedCell = [%c(TFNTextCell) value1CellForTableView:tableView 
+                                                                       indexPath:indexPath 
+                                                                        withText:@"Spoofed Version" 
+                                                                      detailText:@"9.40" 
+                                                                   accessoryType:0];
+            return spoofedCell;
+        } else if (indexPath.row == 2) {
+            // Create branch info cell
+            TFNTextCell *branchCell = [%c(TFNTextCell) value1CellForTableView:tableView 
+                                                                     indexPath:indexPath 
+                                                                      withText:@"Branch" 
+                                                                    detailText:@GIT_BRANCH 
+                                                                 accessoryType:0];
+            return branchCell;
+        } else if (indexPath.row == 3) {
+            // Create commit info cell
+            TFNTextCell *commitCell = [%c(TFNTextCell) value1CellForTableView:tableView 
+                                                                      indexPath:indexPath 
+                                                                       withText:@"Commit" 
+                                                                     detailText:@GIT_COMMIT_HASH 
+                                                                  accessoryType:0];
+            return commitCell;
+        }
+    }
+    
+    return %orig;
+}
+
+%end
