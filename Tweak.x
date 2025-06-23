@@ -184,12 +184,6 @@ static NSString *originalAppVersion = nil;
 - (BOOL)isDMVoiceCreationEnabled {
     return true;
 }
-- (BOOL)isHashflagsEnabled {
-    return false;
-}
-- (BOOL)isLimitedActionsConfigEnabled {
-    return false;
-}
 %end
 
 // MARK: Enable voice button in composer
@@ -302,6 +296,12 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 
 %hook T1TFNUIConfiguration
 - (BOOL)isChirpFontEnabled {
+    if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
+        return true;
+    }
+    return %orig;
+}
+- (BOOL)isNestedActionButtonEnabled {
     if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
         return true;
     }
