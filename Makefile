@@ -1,5 +1,6 @@
-TARGET := iphone:clang:latest:7.0
+TARGET := iphone:clang:latest:14.0
 INSTALL_TARGET_PROCESSES = Twitter
+THEOS_PACKAGE_SCHEME = rootless
 
 GIT_COMMIT_HASH := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
