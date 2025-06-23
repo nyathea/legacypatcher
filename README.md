@@ -7,9 +7,9 @@ This effectively makes it possible to use Twitter again on devices where it was 
 ## What does this do?
 
 **TwitterLegacyPatcher** works by:
-- Disabling SSL pinning in the Twitter app
-- Spoofing the app version to bypass the "Update your app" page on startup
-- Fixes images not displaying correctly by replacing `pic.x.com` with `pic.twitter.com`
+- Bypassing certificate pinning in the app
+- Spoofing the app version to bypass update nags
+- Fixes issues with images not being displaying correctly by replacing `pic.x.com` with `pic.twitter.com` in links
 - Patches out the now deprecated 1.1 endpoints and return the newer graphql endpoints
 
 It also includes several QoL improvements such as:
@@ -17,14 +17,6 @@ It also includes several QoL improvements such as:
 - Removes all ads
 - Hides the "Discover More" section under tweets
 - Enables Birdwatch (Community Notes) on supported versions
-
-## Planned Improvements
-
-- Fixing banner images not being displaying on profiles
-- Fix viewing quote tweets on tweets
-- Fixing latest timeline
-- Stop source labels from disappearing once the tweet has loaded
-- Fix liking tweets and viewing profiles on 7.x versions
 
 ## Tested Versions
 
@@ -44,9 +36,10 @@ Right now releases wont be made until its stable, if you want to test it you can
 
 ## Known Issues
 
-- On 8.58 (and likely other versions), logging in will crash the app or fail to authenticate. A workaround is to log in using 7.29.1 first, then upgrade to your preferred version. later 8.x versions dont seem to have this issue.
-- Viewing Search page and Quote tweets doesnt work
+- On versions below 8.71(?), attempting to log in will crash the app. A workaround is to log in using 7.29.1 first, then upgrade to your preferred version.
+- The Search page and Quote tweets doesnt work
 - You may not be able to like tweets on some versions because of the client using deprecated endpoints. (this will be fixed soon)
-- your profile may not load on the first launch. you may need to reopen it for it to work.
+- Banners and Source labels disappear or dont appear at all once the view is refreshed
+- latest (following) timeline doesnt work yet
 
 Please let me know if theres any other issues! pleae open a bug report and i'll get to you as soon as i can
