@@ -25,8 +25,8 @@ It also includes several QoL improvements such as:
 - v8.71
 - v9.10.1
 
-## Where do i download?
-Right now releases wont be made until its stable, if you want to test it you can download from the nightly link or from the workflow.
+## Nightly builds
+If you wanna test the newest testing builds, you can by visiting the nightly link below. keep in mind things can and will break. please report any issues you find.
 
 `rootful-build` is for devices on iOS 14 and below
 
