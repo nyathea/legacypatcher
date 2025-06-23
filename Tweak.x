@@ -3,8 +3,6 @@
 #import <objc/runtime.h>
 #import "TWHeaders.h"
 
-// FIX LOGIN ISSUES
-
 // MARK: bypass certificate check
 %hook TNUTLSTrustEvaluator
 
@@ -16,20 +14,16 @@
 
 static NSString *originalAppVersion = nil;
 
-// MARK: spoofing app version
+// MARK: Detect original app version
 %hook NSBundle
 - (NSDictionary *)infoDictionary {
     NSDictionary *dict = %orig;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        if ([dict isKindOfClass:[NSMutableDictionary class]]) {
-            // Save and log the original version before changing it
+        // Only capture the original version, don't modify it
+        if (dict[@"CFBundleShortVersionString"] && !originalAppVersion) {
             originalAppVersion = [dict[@"CFBundleShortVersionString"] copy];
             NSLog(@"BHT_LOG: Detected Original App Version: %@", originalAppVersion);
-
-            NSMutableDictionary *mdict = (NSMutableDictionary *)dict;
-            mdict[@"CFBundleShortVersionString"] = @"9.44";
-            mdict[@"CFBundleVersion"] = @"9.44";
         }
     });
     return dict;
@@ -178,9 +172,6 @@ static NSString *originalAppVersion = nil;
 - (BOOL)isVODCaptionsEnabled {
     return false;
 }
-- (BOOL)isSettingsRevampEnabled {
-    return false;
-}
 - (BOOL)isEditProfileUsernameEnabled {
     return true;
 }
@@ -188,6 +179,15 @@ static NSString *originalAppVersion = nil;
     return false;
 }
 - (BOOL)isVitNotificationsFilteringEnabled {
+    return false;
+}
+- (BOOL)isDMVoiceCreationEnabled {
+    return true;
+}
+- (BOOL)isHashflagsEnabled {
+    return false;
+}
+- (BOOL)isLimitedActionsConfigEnabled {
     return false;
 }
 %end
@@ -500,23 +500,46 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 
 %end
 
-// MARK: attempt to fix crash on ipad
-%hook TFNFrameSheet
+static BOOL isOnboardingTaskRequest = NO;
 
-- (NSArray *)frameArray {
-    NSArray *frames = %orig;
-    if (!frames) {
-        return @[];
+// MARK: Bypass update nags
+%hook TFSAPISession
+- (void)tnl_requestOperation:(id)operation hydrateRequest:(NSURLRequest *)request completion:(void (^)(NSURLRequest *, NSError *))completion {
+    if (request.URL && [request.URL.absoluteString containsString:@"/1.1/onboarding/task.json"]) {
+        isOnboardingTaskRequest = YES;
     }
     
-    NSMutableArray *filteredFrames = [NSMutableArray array];
-    for (id frame in frames) {
-        if (frame != nil) {
-            [filteredFrames addObject:frame];
-        }
-    }
+    %orig(operation, request, completion);
     
-    return [filteredFrames copy];
+    isOnboardingTaskRequest = NO;
+}
+%end
+
+%hook TFNTwitterAPIBasicHeaderProvider
+- (NSString *)_tfn_clientVersion {
+    if (isOnboardingTaskRequest) {
+        return @"9.44";
+    }
+    return %orig;
 }
 
+- (id)_tfn_userAgent {
+    if (isOnboardingTaskRequest) {
+        NSString *originalAgent = %orig;
+        if (originalAgent) {
+            NSError *error = nil;
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"Twitter-[^/]+/[0-9.]+" 
+                                                                                   options:0 
+                                                                                     error:&error];
+            if (regex && !error) {
+                NSString *modifiedAgent = [regex stringByReplacingMatchesInString:originalAgent 
+                                                                          options:0 
+                                                                            range:NSMakeRange(0, originalAgent.length) 
+                                                                     withTemplate:@"Twitter-iPhone/9.44"];
+                return modifiedAgent;
+            }
+        }
+    }
+    return %orig;
+}
 %end
