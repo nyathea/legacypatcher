@@ -568,6 +568,11 @@ static BOOL isOnboardingTaskRequest = NO;
 
 %hook TFNPromptViewController
 - (void)private_configurePromptView:(id)arg1 {
+    id dataSource = [self dataSource];
+    if ([dataSource isKindOfClass:%c(T1OnboardingPromptDataSource)]) {
+        %orig;
+        return;
+    }
     return;
 }
 %end
