@@ -301,12 +301,12 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
     }
     return %orig;
 }
-- (BOOL)isNestedActionButtonEnabled {
-    if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
-        return true;
-    }
-    return %orig;
-}
+// - (BOOL)isNestedActionButtonEnabled {
+//    if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
+//        return true;
+//    }
+//    return %orig;
+//}
 %end
 
 // MARK: force highest quality for media
