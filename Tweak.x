@@ -184,6 +184,24 @@ static NSString *originalAppVersion = nil;
 - (BOOL)isDMVoiceCreationEnabled {
     return true;
 }
+- (NSUInteger)unretweetRequestMode {
+    return 2;
+}
+- (NSUInteger)retweetRequestMode {
+    return 2;
+}
+- (NSUInteger)destroyStatusRequestMode {
+    return 2;
+}
+- (NSUInteger)updateStatusRequestMode {
+    return 2;
+}
+- (NSUInteger)unfavoriteRequestMode {
+    return 2;
+}
+- (NSUInteger)favoriteRequestMode {
+    return 2;
+}
 %end
 
 // MARK: Enable voice button in composer
@@ -509,7 +527,7 @@ static BOOL isOnboardingTaskRequest = NO;
 // MARK: Bypass update nags
 %hook TFSAPISession
 - (void)tnl_requestOperation:(id)operation hydrateRequest:(NSURLRequest *)request completion:(void (^)(NSURLRequest *, NSError *))completion {
-    if (request.URL && [request.URL.absoluteString containsString:@"/1.1/onboarding"]) {
+    if (request.URL && [request.URL.absoluteString containsString:@"/1.1/onboarding/"]) {
         isOnboardingTaskRequest = YES;
     }
     
