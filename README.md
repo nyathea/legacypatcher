@@ -26,7 +26,7 @@ It also includes several QoL improvements such as:
 - v9.10.1
 
 ## Nightly builds
-If you wanna test the newest testing builds, you can by visiting the nightly link below. keep in mind things can and will break. please report any issues you find.
+If you wanna test the newest nightly builds, you can by visiting the link below. keep in mind things can and will break. please report any issues you find.
 
 `rootful-build` is for devices on iOS 14 and below
 
