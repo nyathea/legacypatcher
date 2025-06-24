@@ -61,3 +61,11 @@
 + (unsigned long long)baseURLType;
 - (NSDictionary *)parameters;
 @end
+
+@interface TFNPromptViewController : UIViewController
+- (id)promptView;
+- (id)dataSource;
+- (void)setDataSource:(id)arg1;
+- (void)private_dismissAction:(id)arg1;
+- (void)private_configurePromptView:(id)arg1;
+@end
