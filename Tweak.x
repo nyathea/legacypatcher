@@ -565,3 +565,9 @@ static BOOL isOnboardingTaskRequest = NO;
     return %orig;
 }
 %end
+
+%hook TFNPromptViewController
+- (void)private_configurePromptView:(id)arg1 {
+    return;
+}
+%end
