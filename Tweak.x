@@ -433,9 +433,11 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
             NSMutableArray *firstSection = [NSMutableArray arrayWithArray:modifiedSections[0]];
             
             // Insert our custom items at indices 1-4 (after the original version)
-            [firstSection insertObject:@"SpoofedVersion" atIndex:1];
+            [firstSection insertObject:@"PatcherVersion" atIndex:1];
+#ifndef FINALPACKAGE
             [firstSection insertObject:@"BranchInfo" atIndex:2];
             [firstSection insertObject:@"CommitInfo" atIndex:3];
+#endif
             
             // Replace the first section
             [modifiedSections replaceObjectAtIndex:0 withObject:[firstSection copy]];
@@ -456,22 +458,23 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
             // Modify the existing version cell to show original version
             UITableViewCell *cell = %orig;
             if (cell.textLabel) {
-                cell.textLabel.text = @"Original Version";
+                cell.textLabel.text = @"App Version";
                 if (cell.detailTextLabel) {
                     cell.detailTextLabel.text = originalAppVersion;
                 }
             }
             return cell;
         } else if (indexPath.row == 1) {
-            NSLog(@"BHT_LOG: Creating spoofed version cell");
-            // Create spoofed version cell
-            TFNTextCell *spoofedCell = [%c(TFNTextCell) value1CellForTableView:tableView 
-                                                                       indexPath:indexPath 
-                                                                        withText:@"Spoofed Version" 
-                                                                      detailText:@"9.44" 
-                                                                   accessoryType:0];
-            spoofedCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return spoofedCell;
+            NSLog(@"BHT_LOG: Creating patcher version cell");
+            // Create patcher version cell
+            TFNTextCell *patcherCell = [%c(TFNTextCell) value1CellForTableView:tableView
+                                                                     indexPath:indexPath
+                                                                      withText:@"Patcher Version"
+                                                                    detailText:@PATCHER_VERSION
+                                                                 accessoryType:0];
+            patcherCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return patcherCell;
+#ifndef FINALPACKAGE
         } else if (indexPath.row == 2) {
             NSLog(@"BHT_LOG: Creating branch info cell");
             // Create branch info cell
@@ -492,6 +495,7 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
                                                                   accessoryType:0];
             commitCell.selectionStyle = UITableViewCellSelectionStyleNone;
             return commitCell;
+#endif
         }
     }
     
@@ -505,7 +509,7 @@ static BOOL isOnboardingTaskRequest = NO;
 // MARK: Bypass update nags
 %hook TFSAPISession
 - (void)tnl_requestOperation:(id)operation hydrateRequest:(NSURLRequest *)request completion:(void (^)(NSURLRequest *, NSError *))completion {
-    if (request.URL && [request.URL.absoluteString containsString:@"/1.1/onboarding/task.json"]) {
+    if (request.URL && [request.URL.absoluteString containsString:@"/1.1/onboarding"]) {
         isOnboardingTaskRequest = YES;
     }
     
