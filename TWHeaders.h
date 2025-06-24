@@ -1,10 +1,8 @@
-// Define minimal interface for trust evaluator
 @interface TNUTLSTrustEvaluator : NSObject
 - (BOOL)_isPinnedCertificateChain:(SecTrustRef)trust;
 - (void)_cacheValidLeafCertificateFingerprint:(NSString *)fingerprint;
 @end
 
-// Define minimal interfaces for timeline filtering
 @interface T1URTTimelineUserItemViewModel : NSObject
 @property(nonatomic, retain) NSString *scribeComponent;
 @end
@@ -32,34 +30,23 @@
 - (void)setSections:(NSArray *)sections;
 @end
 
-// Define minimal interface for About Settings
 @interface T1AboutSettingsViewController : TFNItemsDataViewController
 @end
 
-// Define minimal interface for TFNTextCell
 @interface TFNTextCell : UITableViewCell
 + (id)value1CellForTableView:(id)arg1 indexPath:(id)arg2 withText:(id)arg3 detailText:(id)arg4 accessoryType:(long long)arg5;
 @end
 
-// Define minimal interface for media URLs
 @interface TFSTwitterEntityMedia : NSObject
 @property(nonatomic, retain) NSString *originalDisplayURL;
 @property(nonatomic, retain) NSString *displayURL;
 @property(nonatomic, retain) NSString *accessibilityText;
 @end
 
-// Define minimal interface for tweet footer
 @interface T1TweetDetailsFooterItem : NSObject
 @property(nonatomic, retain) NSString *source;
 @end
 
-// Define minimal interface for layout container
-@interface UILayoutContainerView : UIView
-- (UIViewController *)findTopViewController;
-- (void)promptForATTToken;
-@end
-
-// Define minimal interface for API requests
 @interface TFSTwitterAPIEndpointRequest : NSObject
 - (id)initWithEndpointPath:(NSString *)endpointPath parameters:(NSDictionary *)parameters;
 - (id)initWithEndpointPath:(NSString *)endpointPath parameters:(NSDictionary *)parameters method:(long long)method;
