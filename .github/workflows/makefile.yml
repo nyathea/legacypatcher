@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -17,9 +17,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install ldid make dpkg coreutils
-          # Create symlink to ensure GNU make is used
-          sudo ln -sf $(brew --prefix)/bin/gmake /usr/local/bin/make
+          sudo apt-get update
+          sudo apt-get install -y build-essential git curl wget unzip python3 python3-pip ldid
 
       - name: Clone Theos and sdks
         run: |
@@ -29,19 +28,11 @@ jobs:
           echo "THEOS=$HOME/theos" >> $GITHUB_ENV
           echo "PATH=$HOME/theos/bin:$PATH" >> $GITHUB_ENV
 
-      - name: Verify tools
-        run: |
-          which make
-          make --version
-          which bash
-          bash --version
-
       - name: Build (rootful)
         env:
           THEOS: ${{ env.THEOS }}
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS10.3.sdk
           ARCHS: "arm64 armv7"
-          SHELL: /bin/bash
         run: |
            make clean package
            ls -al
@@ -55,7 +46,6 @@ jobs:
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS15.6.sdk
           THEOS_PACKAGE_SCHEME: rootless
           ARCHS: "arm64"
-          SHELL: /bin/bash
         run: |
            make clean package
            ls -al
