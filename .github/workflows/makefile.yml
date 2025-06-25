@@ -15,25 +15,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Clone Theos and sdks
-        run: |
-          git clone --recursive https://github.com/theos/theos.git $HOME/theos
-          rm -rf $HOME/theos/sdks
-          git clone https://github.com/theos/sdks.git $HOME/theos/sdks
-          echo "THEOS=$HOME/theos" >> $GITHUB_ENV
-
-      - name: Install dependencies
-        run: |
-          brew install ldid make dpkg
+      - name: Setup Theos
+        uses: Randomblock1/theos-action@v1
 
       - name: Build (rootful)
         env:
-          THEOS: ${{ env.THEOS }}
-          THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS10.3.sdk
+          THEOS_PLATFORM_SDK_ROOT: ${{ github.workspace }}/theos/sdks/iPhoneOS10.3.sdk
           ARCHS: "arm64 armv7"
-          MAKE: gmake
         run: |
-           gmake clean package SHELL=/bin/bash
+           make clean package
            ls -al
            find . -name '*.deb'
            mkdir -p build/rootful
@@ -41,13 +31,11 @@ jobs:
 
       - name: Build (rootless)
         env:
-          THEOS: ${{ env.THEOS }}
-          THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS15.6.sdk
+          THEOS_PLATFORM_SDK_ROOT: ${{ github.workspace }}/theos/sdks/iPhoneOS15.6.sdk
           THEOS_PACKAGE_SCHEME: rootless
           ARCHS: "arm64"
-          MAKE: gmake
         run: |
-           gmake clean package SHELL=/bin/bash
+           make clean package
            ls -al
            find . -name '*.deb'
            mkdir -p build/rootless
