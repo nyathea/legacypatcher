@@ -522,44 +522,43 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 
 %end
 
-static NSString *currentRequestURL = nil;
+static NSString *spoofedVersion = @"11.0";
 
-%hook TFSAPISession
-- (void)tnl_requestOperation:(id)operation hydrateRequest:(NSURLRequest *)request completion:(void (^)(NSURLRequest *, NSError *))completion {
-    currentRequestURL = request.URL.absoluteString;
-    %orig(operation, request, completion);
+%hook NSMutableURLRequest
+- (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field {
+    if ([field isEqualToString:@"X-Twitter-Client-Version"] && 
+        self.URL && 
+        [self.URL.absoluteString containsString:@"/1.1/onboarding/"]) {
+        
+        %orig(spoofedVersion, field);
+        return;
+    }
+    
+    if ([field isEqualToString:@"User-Agent"] && 
+        self.URL && 
+        [self.URL.absoluteString containsString:@"/1.1/onboarding/"]) {
+        
+        NSError *error = nil;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(Twitter-[^/]+/)[0-9.]+" 
+                                                                               options:0 
+                                                                                 error:&error];
+        if (regex && !error) {
+            NSString *modifiedAgent = [regex stringByReplacingMatchesInString:value 
+                                                                      options:0 
+                                                                        range:NSMakeRange(0, value.length) 
+                                                                 withTemplate:[NSString stringWithFormat:@"$1%@", spoofedVersion]];
+            %orig(modifiedAgent, field);
+            return;
+        }
+    }
+    
+    %orig(value, field);
 }
 %end
 
-%hook TFNTwitterAPIBasicHeaderProvider
-- (id)_tfn_clientVersion {
-    if (currentRequestURL && 
-        ([currentRequestURL containsString:@"/1.1/onboarding/"] || 
-         [currentRequestURL containsString:@"/1.1/jot/"])) {
-        return @"11.0";
-    }
-    return %orig;
-}
-
-- (id)_tfn_userAgent {
-    if (currentRequestURL && 
-        ([currentRequestURL containsString:@"/1.1/onboarding/"] || 
-         [currentRequestURL containsString:@"/1.1/jot/"])) {
-        NSString *originalAgent = %orig;
-        if (originalAgent) {
-            NSError *error = nil;
-            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(Twitter-[^/]+/)[0-9.]+" 
-                                                                                   options:0 
-                                                                                     error:&error];
-            if (regex && !error) {
-                return [regex stringByReplacingMatchesInString:originalAgent 
-                                                      options:0 
-                                                        range:NSMakeRange(0, originalAgent.length) 
-                                                 withTemplate:@"$111.0"];
-            }
-        }
-    }
-    return %orig;
+%hook T1TimelineCoverViewController
+- (BOOL)showDismissOption {
+   return true;
 }
 %end
 
