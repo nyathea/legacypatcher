@@ -21,11 +21,12 @@ jobs:
           rm -rf $HOME/theos/sdks
           git clone https://github.com/theos/sdks.git $HOME/theos/sdks
           echo "THEOS=$HOME/theos" >> $GITHUB_ENV
-          echo "PATH=$PATH:$HOME/theos/bin" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
           brew install ldid make dpkg
+          # Ensure GNU make is in PATH before system make
+          echo "$(brew --prefix)/opt/make/libexec/gnubin" >> $GITHUB_PATH
 
       - name: Build (rootful)
         env:
