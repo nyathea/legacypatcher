@@ -522,43 +522,40 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 
 %end
 
-static BOOL isOnboardingTaskRequest = NO;
+static NSString *currentRequestURL = nil;
 
-// MARK: Bypass update nags
 %hook TFSAPISession
 - (void)tnl_requestOperation:(id)operation hydrateRequest:(NSURLRequest *)request completion:(void (^)(NSURLRequest *, NSError *))completion {
-    if (request.URL && [request.URL.absoluteString containsString:@"/1.1/onboarding/"]) {
-        isOnboardingTaskRequest = YES;
-    }
-    
+    currentRequestURL = request.URL.absoluteString;
     %orig(operation, request, completion);
-    
-    isOnboardingTaskRequest = NO;
 }
 %end
 
 %hook TFNTwitterAPIBasicHeaderProvider
-- (NSString *)_tfn_clientVersion {
-    if (isOnboardingTaskRequest) {
-        return @"9.44";
+- (id)_tfn_clientVersion {
+    if (currentRequestURL && 
+        ([currentRequestURL containsString:@"/1.1/onboarding/"] || 
+         [currentRequestURL containsString:@"/1.1/jot/"])) {
+        return @"11.0";
     }
     return %orig;
 }
 
 - (id)_tfn_userAgent {
-    if (isOnboardingTaskRequest) {
+    if (currentRequestURL && 
+        ([currentRequestURL containsString:@"/1.1/onboarding/"] || 
+         [currentRequestURL containsString:@"/1.1/jot/"])) {
         NSString *originalAgent = %orig;
         if (originalAgent) {
             NSError *error = nil;
-            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"Twitter-[^/]+/[0-9.]+" 
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(Twitter-[^/]+/)[0-9.]+" 
                                                                                    options:0 
                                                                                      error:&error];
             if (regex && !error) {
-                NSString *modifiedAgent = [regex stringByReplacingMatchesInString:originalAgent 
-                                                                          options:0 
-                                                                            range:NSMakeRange(0, originalAgent.length) 
-                                                                     withTemplate:@"Twitter-iPhone/9.44"];
-                return modifiedAgent;
+                return [regex stringByReplacingMatchesInString:originalAgent 
+                                                      options:0 
+                                                        range:NSMakeRange(0, originalAgent.length) 
+                                                 withTemplate:@"$111.0"];
             }
         }
     }
@@ -566,13 +563,8 @@ static BOOL isOnboardingTaskRequest = NO;
 }
 %end
 
-%hook TFNPromptViewController
-- (void)private_configurePromptView:(id)arg1 {
-    id dataSource = [self dataSource];
-    if ([dataSource isKindOfClass:%c(T1OnboardingPromptDataSource)]) {
-        %orig;
-        return;
-    }
-    return;
+%hook TFSTwitterUserSource
+- (BOOL)isProfileBioTranslatable {
+  return true;
 }
 %end
