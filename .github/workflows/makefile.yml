@@ -15,24 +15,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: |
+          brew install ldid make dpkg coreutils
+          # Create symlink to ensure GNU make is used
+          sudo ln -sf $(brew --prefix)/bin/gmake /usr/local/bin/make
+
       - name: Clone Theos and sdks
         run: |
           git clone --recursive https://github.com/theos/theos.git $HOME/theos
           rm -rf $HOME/theos/sdks
           git clone https://github.com/theos/sdks.git $HOME/theos/sdks
           echo "THEOS=$HOME/theos" >> $GITHUB_ENV
+          echo "PATH=$HOME/theos/bin:$PATH" >> $GITHUB_ENV
 
-      - name: Install dependencies
+      - name: Verify tools
         run: |
-          brew install ldid make dpkg
-          # Ensure GNU make is in PATH before system make
-          echo "$(brew --prefix)/opt/make/libexec/gnubin" >> $GITHUB_PATH
+          which make
+          make --version
+          which bash
+          bash --version
 
       - name: Build (rootful)
         env:
           THEOS: ${{ env.THEOS }}
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS10.3.sdk
           ARCHS: "arm64 armv7"
+          SHELL: /bin/bash
         run: |
            make clean package
            ls -al
@@ -46,6 +55,7 @@ jobs:
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS15.6.sdk
           THEOS_PACKAGE_SCHEME: rootless
           ARCHS: "arm64"
+          SHELL: /bin/bash
         run: |
            make clean package
            ls -al
