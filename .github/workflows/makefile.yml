@@ -9,16 +9,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential git curl wget unzip python3 python3-pip ldid
 
       - name: Clone Theos and sdks
         run: |
@@ -26,15 +21,19 @@ jobs:
           rm -rf $HOME/theos/sdks
           git clone https://github.com/theos/sdks.git $HOME/theos/sdks
           echo "THEOS=$HOME/theos" >> $GITHUB_ENV
-          echo "PATH=$HOME/theos/bin:$PATH" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: |
+          brew install ldid make dpkg
 
       - name: Build (rootful)
         env:
           THEOS: ${{ env.THEOS }}
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS10.3.sdk
           ARCHS: "arm64 armv7"
+          MAKE: gmake
         run: |
-           make clean package
+           gmake clean package SHELL=/bin/bash
            ls -al
            find . -name '*.deb'
            mkdir -p build/rootful
@@ -46,8 +45,9 @@ jobs:
           THEOS_PLATFORM_SDK_ROOT: $HOME/theos/sdks/iPhoneOS15.6.sdk
           THEOS_PACKAGE_SCHEME: rootless
           ARCHS: "arm64"
+          MAKE: gmake
         run: |
-           make clean package
+           gmake clean package SHELL=/bin/bash
            ls -al
            find . -name '*.deb'
            mkdir -p build/rootless
