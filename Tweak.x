@@ -413,6 +413,11 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 + (id)JSONObjectWithData:(NSData *)data options:(NSJSONReadingOptions)opt error:(NSError **)error {
     id JSONObject = %orig(data, opt, error);
 
+    NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    if ([jsonString containsString:@"Fatigue"]) {
+        return @{};
+    }
+
     if (JSONObject && [JSONObject isKindOfClass:[NSDictionary class]]) {
         id tweetResults = [JSONObject valueForKeyPath:@"data.tweet_results.result.translate_tweet"];
         if (tweetResults && [tweetResults isKindOfClass:[NSDictionary class]]) {
