@@ -527,7 +527,7 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 
 %end
 
-static NSString *spoofedVersion = @"11.0";
+static NSString *spoofedVersion = @"10.0";
 
 %hook NSMutableURLRequest
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field {
@@ -558,12 +558,6 @@ static NSString *spoofedVersion = @"11.0";
     }
     
     %orig(value, field);
-}
-%end
-
-%hook T1TimelineCoverViewController
-- (BOOL)showDismissOption {
-   return true;
 }
 %end
 
