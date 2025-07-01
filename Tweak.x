@@ -566,3 +566,17 @@ static NSString *spoofedVersion = @"10.0";
   return true;
 }
 %end
+
+// MARK: fix source labels and other issues on 8.x
+%hook T1GraphQLFeatures
+- (BOOL)isUrtConversationTimelineEnabled {
+   return false;
+}
+%end
+
+// MARK: enable custom colors
+%hook T1CustomPrimaryColorConfig
+- (BOOL)isCustomPrimaryColorEnabled {
+   return true;
+}
+%end
