@@ -25,6 +25,8 @@ It also includes several QoL improvements such as:
 - v8.71
 - v9.10.1
 
+Every 7.x - 9.x version *should* somewhat work. this tweak isn't neccesary yet for 9.44+
+
 ## Nightly builds
 If you wanna test the newest nightly builds, you can by visiting the link below. keep in mind things can and will break. please report any issues you find.
 
@@ -36,10 +38,10 @@ If you wanna test the newest nightly builds, you can by visiting the link below.
 
 ## Known Issues
 
-- On versions below 8.71(?), attempting to log in will crash the app. A workaround is to log in using 7.29.1 first, then upgrade to your preferred version.
+- On some 8.x versions, attempting to log in will freeze the app and eventually cause an crash. A workaround is to log in using 7.29.1 first, then upgrade to your preferred version.
 - The Search page and Quote tweets doesnt work
-- You may not be able to like tweets on some versions because of the client using deprecated endpoints. (this will be fixed soon)
-- Banners and Source labels disappear or dont appear at all once the view is refreshed
+- You may not be able to like tweets on some versions because of deprecated v1.1 endpoints. (this will be fixed soon)
+- Banners disappear once the profile view is refreshed
 - latest (following) timeline doesnt work yet
 
 Please let me know if theres any other issues! pleae open a bug report and i'll get to you as soon as i can
