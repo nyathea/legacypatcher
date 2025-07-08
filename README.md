@@ -17,7 +17,7 @@ It also includes several QoL improvements such as:
 
 ## Supported Versions
 
-Every 7.x - 9.x version *should* work. this tweak isn't neccesary yet for 9.44+
+Every 7.x, 8.x, and 9.x version *should* work. it will not work on 6.x and below as much more is broken. this tweak isn't neccesary for 9.44+
 
 ## Nightly builds
 If you wanna test the newest nightly builds, you can by visiting the link below. keep in mind things can and will break. please report any issues you find.
