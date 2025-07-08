@@ -1,9 +1,10 @@
-Package: com.nyathea.twtlegacypatcher
-Name: TwitterLegacyPatcher
+Package: com.nyathea.legacybird
+Name: LegacyBird
 Version: 0.1
 Architecture: iphoneos-arm
 Description: An awesome MobileSubstrate tweak!
-Maintainer: thea
-Author: thea
+Maintainer: nyathea
+Author: nyathea
 Section: Tweaks
 Depends: mobilesubstrate (>= 0.9.5000)
+Conflicts: com.nyathea.twtlegacypatcher
