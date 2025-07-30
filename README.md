@@ -1,5 +1,5 @@
 ## Repo Archived
-While it still works and can be used no more updates will be made to this repo. TwitterLegacyPatcher will be integrated in our BHTwitter fork used for NeoFreeBird in the coming months. to become the "ultimate" tweak for twitter
+While it still works and can be used no more updates will be made to this repo. TwitterLegacyPatcher will be integrated in our BHTwitter fork used for NeoFreeBird in the coming months.
 
 # TwitterLegacyPatcher
 
