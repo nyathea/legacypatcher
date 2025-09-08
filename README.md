@@ -1,4 +1,4 @@
-# TwitterLegacyPatcher (LegacyBird)
+# TwitterLegacyPatcher
 
 A tweak to restore functionality to older Twitter versions for iOS/iPadOS 
 
