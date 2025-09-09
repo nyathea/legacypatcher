@@ -1,8 +1,8 @@
 # TwitterLegacyPatcher
 
-A tweak to restore functionality to older Twitter versions for iOS/iPadOS 
+A tweak to restore functionality to older Twitter versions for iOS/iPadOS 9+
 
-This effectively makes it possible to use Twitter again on devices where it was broken previously.
+This makes it possible to use Twitter again on devices where it was broken previously.
 
 ## Patches include
 - Bypassing certificate pinning in the app to fix sign in
@@ -17,7 +17,7 @@ It also includes several QoL improvements such as:
 
 ## Supported Versions
 
-Every 7.x, 8.x, and 9.x version *should* work. it will not work on 6.x and below as much more is broken. this tweak isn't neccesary for 9.44+
+Every 7.x, 8.x, and 9.x version *should* work. it will not work on 6.x this tweak isn't neccesary for 9.40+
 
 ## Nightly builds
 If you wanna test the newest nightly builds, you can by visiting the link below. keep in mind things can and will break. please report any issues you find.
@@ -26,7 +26,7 @@ If you wanna test the newest nightly builds, you can by visiting the link below.
 
 `rootless-build` is for devices on iOS 15 and above
 
-[Link to Nightly Build](https://nightly.link/nyathea/LegacyBird/workflows/makefile/main)
+[Link to Nightly Build](https://nightly.link/NeoFreeBird/LegacyPatcher/workflows/makefile/main)
 
 ## Known Issues
 
