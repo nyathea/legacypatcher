@@ -1,10 +1,10 @@
-Package: com.nyathea.legacybird
-Name: LegacyBird
-Version: 0.1
+Package: com.nyathea.legacypatcher
+Name: TwitterLegacyPatcher
+Version: 0.1.1
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: Tweak to patch old twitter to work again
 Maintainer: nyathea
 Author: nyathea
 Section: Tweaks
 Depends: mobilesubstrate (>= 0.9.5000)
-Conflicts: com.nyathea.twtlegacypatcher
+Conflicts: com.nyathea.twtlegacypatcher, com.nyathea.legacybird
