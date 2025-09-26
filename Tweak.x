@@ -527,7 +527,7 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 
 %end
 
-static NSString *spoofedVersion = @"11.0";
+static NSString *spoofedVersion = @"9.67";
 
 %hook NSMutableURLRequest
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field {
