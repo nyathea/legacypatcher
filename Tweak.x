@@ -20,17 +20,14 @@ static NSString *originalAppVersion = nil;
     NSDictionary *dict = %orig;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        // Only capture the original version, don't modify it
         if (dict[@"CFBundleShortVersionString"] && !originalAppVersion) {
             originalAppVersion = [dict[@"CFBundleShortVersionString"] copy];
-            NSLog(@"BHT_LOG: Detected Original App Version: %@", originalAppVersion);
+            NSLog(@"Detected Original App Version: %@", originalAppVersion);
         }
     });
     return dict;
 }
 %end
-
-// Some QOL features
 
 // MARK: Remove useless fleet bar
 %hook T1HomeTimelineItemsViewController
@@ -211,7 +208,7 @@ static NSString *originalAppVersion = nil;
 }
 %end
 
-// MARK: fix for affiliate badges showing up on profiles on v8.x
+// MARK: fix for affiliate badges
 %hook TTACoreAnatomyFeatures
 - (BOOL)isAffiliateBadgeEnabled {
     return false;
@@ -527,7 +524,7 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 
 %end
 
-static NSString *spoofedVersion = @"9.67";
+static NSString *spoofedVersion = @"10.0";
 
 %hook NSMutableURLRequest
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field {
