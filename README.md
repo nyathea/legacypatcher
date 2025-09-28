@@ -1,3 +1,6 @@
+## Project EOL
+Both of my twitter accounts were terminated and i assume it could be due to this. do not use this unless you're on a burner. its not safe
+
 # TwitterLegacyPatcher
 
 A tweak to restore functionality to older Twitter versions for iOS/iPadOS 9+
@@ -34,6 +37,3 @@ If you wanna test the newest nightly builds, you can by visiting the link below.
 - You may not be able to like tweets or view peofiles on some versions
 - Banners dont show up at all
 - latest (following) timeline doesnt work yet
-
-## Log in workaround
-If you get a (not found) error after attempting to log in you must press on "forgot password" and check your email for the code from Twitter. when you reset you can use your current password as it doesnt matter. after this you will get a blue "Return to X" button. after pressing this you will be logged into your account.
