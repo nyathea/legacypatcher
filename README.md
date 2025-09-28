@@ -34,3 +34,6 @@ If you wanna test the newest nightly builds, you can by visiting the link below.
 - You may not be able to like tweets or view peofiles on some versions
 - Banners dont show up at all
 - latest (following) timeline doesnt work yet
+
+## Log in workaround
+If you get a (not found) error after attempting to log in you must press on "forgot password" and check your email for the code from Twitter. when you reset you can use your current password as it doesnt matter. after this you will get a blue "Return to X" button. after pressing this you will be logged into your account. effectivly bypassing the broken login.
