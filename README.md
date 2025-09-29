@@ -1,5 +1,5 @@
-## Project EOL
-Both of my twitter accounts were terminated and i assume it could be due to this. do not use this unless you're on a burner. its not safe
+## EOL Notice
+I do not plan to work on this any longer, when trying to bypass login both of my twitter accounts were terminated and i assume it may be due to this. so do NOT use this unless you're on a burner account. i can't gaurentee anything and im not responsible if your twitter account is banned.
 
 # TwitterLegacyPatcher
 
@@ -12,23 +12,9 @@ This makes it possible to use Twitter again on devices where it was broken previ
 - Spoofing app version
 - Fix problems with images not being displaed correctly by replacing `pic.x.com` with `pic.twitter.com`
 
-It also includes several QoL improvements such as:
-- Hides the (now useless) Fleets bar on versions that had it
-- Removes all ads
-- Enables Birdwatch (Community Notes) on supported versions
-
 ## Supported Versions
 
 7.x, 8.x, and 9.x versions *should* work. it will not work on 6.x or below
-
-## Nightly builds
-If you wanna test the newest nightly builds, you can by visiting the link below. keep in mind things can and will break.
-
-`rootful-build` is for devices on iOS 14 and below
-
-`rootless-build` is for devices on iOS 15 and above
-
-[Link to Nightly Build](https://nightly.link/NeoFreeBird/LegacyPatcher/workflows/makefile/main)
 
 ## Known Issues
 
