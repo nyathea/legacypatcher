@@ -257,58 +257,6 @@ static NSString *originalAppVersion = nil;
 }
 %end
 
-// Helper function to check if we're in the T1ConversationContainerViewController hierarchy
-static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewController) {
-    if (!viewController) return NO;
-    
-    // Check all view controllers up the hierarchy
-    UIViewController *currentVC = viewController;
-    while (currentVC) {
-        NSString *className = NSStringFromClass([currentVC class]);
-        
-        // Check for T1ConversationContainerViewController
-        if ([className isEqualToString:@"T1ConversationContainerViewController"]) {
-            return YES;
-        }
-        
-        // Move up the hierarchy
-        if (currentVC.parentViewController) {
-            currentVC = currentVC.parentViewController;
-        } else if (currentVC.navigationController) {
-            currentVC = currentVC.navigationController;
-        } else if (currentVC.presentingViewController) {
-            currentVC = currentVC.presentingViewController;
-        } else {
-            break;
-        }
-    }
-    
-    return NO;
-}
-
-// MARK : Remove "Discover More" section
-%hook T1URTViewController
-
-- (void)setSections:(NSArray *)sections {
-    if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
-        // Only filter if we're in the T1ConversationContainerViewController hierarchy
-        BOOL inConversationHierarchy = BHT_isInConversationContainerHierarchy((UIViewController *)self);
-        
-        if (inConversationHierarchy) {
-            // Remove entry 1 (index 1) from sections array
-            if (sections.count > 1) {
-                NSMutableArray *filteredSections = [NSMutableArray arrayWithArray:sections];
-                [filteredSections removeObjectAtIndex:1];
-                sections = [filteredSections copy];
-            }
-        }
-    }
-    
-    %orig(sections);
-}
-
-%end
-
 %hook T1TFNUIConfiguration
 - (BOOL)isChirpFontEnabled {
     if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
@@ -316,12 +264,6 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
     }
     return %orig;
 }
-// - (BOOL)isNestedActionButtonEnabled {
-//    if (originalAppVersion && [originalAppVersion compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
-//        return true;
-//    }
-//    return %orig;
-//}
 %end
 
 // MARK: force highest quality for media
@@ -354,90 +296,6 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 %hook T1HighQualityImagesUploadSettings
 - (_Bool)shouldUploadHighQualityImages {
     return true;
-}
-%end
-
-// MARK: Fix Translate button endpoint
-%hook TFSTwitterAPITranslationsShowRequest
-
-+ (NSString *)endpointPath {
-    return @"/graphql/UKHMx2KR1yByLE3fcs4Sbw/TranslateTweetResults";
-}
-
-+ (unsigned long long)baseURLType {
-    return 0;
-}
-
-- (NSDictionary *)parameters {
-    NSDictionary *originalParameters = %orig;
-    if (!originalParameters) {
-        return nil;
-    }
-
-    NSString *tweetID = originalParameters[@"id"];
-    if (!tweetID) {
-        return originalParameters;
-    }
-
-    NSDictionary *variables = @{
-        @"rest_id": tweetID,
-        @"translation_source": @"Google"
-    };
-    NSDictionary *features = @{
-        @"immersive_video_status_linkable_timestamps": @(YES)
-    };
-    
-    NSData *variablesData = [NSJSONSerialization dataWithJSONObject:variables options:0 error:nil];
-    NSData *featuresData = [NSJSONSerialization dataWithJSONObject:features options:0 error:nil];
-    
-    if (variablesData && featuresData) {
-        NSString *variablesString = [[NSString alloc] initWithData:variablesData encoding:NSUTF8StringEncoding];
-        NSString *featuresString = [[NSString alloc] initWithData:featuresData encoding:NSUTF8StringEncoding];
-
-        if (variablesString && featuresString) {
-            return @{
-                @"variables": variablesString,
-                @"features": featuresString
-            };
-        }
-    }
-    return originalParameters;
-}
-
-%end
-
-%hook NSJSONSerialization
-+ (id)JSONObjectWithData:(NSData *)data options:(NSJSONReadingOptions)opt error:(NSError **)error {
-    id JSONObject = %orig(data, opt, error);
-
-    NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    if ([jsonString containsString:@"Fatigue"]) {
-        return @{};
-    }
-
-    if (JSONObject && [JSONObject isKindOfClass:[NSDictionary class]]) {
-        id tweetResults = [JSONObject valueForKeyPath:@"data.tweet_results.result.translate_tweet"];
-        if (tweetResults && [tweetResults isKindOfClass:[NSDictionary class]]) {
-            NSString *translationText = tweetResults[@"translation"];
-            NSString *translationState = tweetResults[@"translation_state"];
-            
-            if (translationText && [translationState isEqualToString:@"Success"]) {
-                NSString *tweetID = [JSONObject valueForKeyPath:@"data.tweet_results.rest_id"];
-                
-                return @{
-                    @"id_str": tweetID ?: @"",
-                    @"text": translationText,
-                    @"translation": translationText,
-                    @"dest": tweetResults[@"destination_language"] ?: @"en",
-                    @"source_language": tweetResults[@"source_language"] ?: @"",
-                    @"localized_source_language": tweetResults[@"localized_source_language"] ?: @"",
-                    @"entities": tweetResults[@"entities"] ?: @{}
-                };
-            }
-        }
-    }
-    
-    return JSONObject;
 }
 %end
 
@@ -524,7 +382,7 @@ static BOOL BHT_isInConversationContainerHierarchy(UIViewController *viewControl
 
 %end
 
-static NSString *spoofedVersion = @"10.0";
+static NSString *spoofedVersion = @"11.0";
 
 %hook NSMutableURLRequest
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field {
