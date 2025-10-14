@@ -15,8 +15,9 @@ This makes it possible to use Twitter again on devices where it was broken previ
 
 ## Known Issues
 
-- On some 8.x versions, attempting to log in will freeze the app and eventually cause an crash. A workaround is to log in using 7.29.1 first, then upgrade to your preferred version.
+- On some 8.x versions, attempting to log in will freeze the app and eventually cause an crash. (A workaround is to log in using 7.29.1 first or a newwr version if possible)
 - The Search page and Quote tweets dont work
 - You may not be able to like tweets or view peofiles on some versions
 - Banners dont show up at all
-- latest (following) timeline doesnt work yet
+- latest (following) timeline doesnt work
+- Sign in may not work at all on many versions
