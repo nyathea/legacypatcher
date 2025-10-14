@@ -1,6 +1,3 @@
-## EOL Notice
-I do not plan to work on this any longer, when trying to bypass login both of my twitter accounts were terminated and i assume it may be due to this. so do NOT use this unless you're on a burner account. i can't gaurentee anything and im not responsible if your twitter account is banned.
-
 # TwitterLegacyPatcher
 
 A tweak to restore functionality to older Twitter versions for iOS/iPadOS 9+
